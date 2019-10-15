@@ -1,0 +1,95 @@
+{
+    "swagger":"2.0",
+     "info": {
+         "version": "1.0.0",
+         "description":"id and names",
+         "title": "sample api"
+     },
+     "host": "localhost:3000",
+     "basePath": "/",
+     "schemes": [
+         "http"
+     ],
+     "paths": {
+         "/api/names": {
+             "get": {
+                 "description": "displays the names ",
+                 "parameters": [
+                     {
+                         "type": "string",
+                         "description": "names",
+                     }
+                 ],
+                
+             }
+         },
+         "/api/names": {
+             "post": {
+                 "description":"enter a name",
+                 "parameters": [
+                     {
+                         "type": "string",
+                         "description": "name",
+                         "name": "string",
+                         "in": "JSON"
+                     },
+                 ],
+     
+             }
+         },
+         "/api/names/:id": {
+             "get": {
+                 "description": "enter an number in the place of id",
+                 "parameters": [],
+                 "responses": {
+                     "404": {
+                         "type ": "array",
+                         "description": "The Name With The Given ID Was Not Found"
+                     }
+                 }
+             }
+         },
+         "/api/names/:id": {
+             "put": {
+                 "description": "updates the names",
+                 "parameters": [],
+                 "responses": {
+                     "404": {
+                         "type ": "array",
+                         "description": "The Name With The Given ID Was Not Found"
+                     }
+                 }
+                  "responses": {
+                     "400": {
+                         "type ": "array",
+                         "description": "bad request"
+                     }
+                 }
+             }
+         },
+         "/api/names/:id": {
+             "delete": {
+                 "description": "deletes an entry",
+                 "parameters": [],
+                 "responses": {
+                     "404": {
+                         "type ": "string",
+                         "description": "The Name With The Given ID Was Not Found"
+                     }
+                 }
+             }
+         },
+         "/api/all": {
+             "get": {
+                 "description": "displays all the names in the original data",
+                 "parameters": [
+                     {
+                         "type": "string",
+                         "description": "names"
+                     }
+                 ]
+                
+             }
+         }
+     }
+ }
