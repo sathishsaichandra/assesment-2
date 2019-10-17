@@ -1,5 +1,6 @@
 const Joi=require('joi')
 const waterfall = require('async-waterfall');
+const bodyParser=require("body-parser")
 const express = require('express');
 const app = express();
 app.use(express.json())
@@ -33,13 +34,15 @@ app.get('/api/names/:id',(req,res)=>{
     res.send(name)
 })
 app.put('/api/names/:id',(req,res)=>{
-    const name=names.find(n => n.id=== parseInt(req.params.id))
-    if(!name) return res.status(404).send('The Name With The Given ID Was Not Found.')
+    const Name=names.find(n => n.id === parseInt(req.params.id))
+    if(!Name) return res.status(404).send('The Name With The Given ID Was Not Found.')
     const {error}=validatename(req.body)
     if(error) return res.status(400).send(error.details[0].message)
+    Name.name=req.params.name
+    res.send(Name)
 })
 app.delete('/api/names/:id',(req,res)=>{
-    const name=names.find(n => n.id=== parseInt(req.params.id))
+    const name=names.find(n => n.id === parseInt(req.params.id))
     if(!name) return res.status(404).send('The Name With The Given ID Was Not Found.')
     const index=names.indexOf(name)
     names.splice(index,1)
