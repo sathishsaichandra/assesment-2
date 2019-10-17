@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
     "version": "1.0.0",
-    "description": "Query operations",
+    "description": "API operations",
     "title": "CRUD operations"
     },
     "host": "localhost:3000",
