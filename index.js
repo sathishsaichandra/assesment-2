@@ -1,24 +1,31 @@
 const Joi=require('joi')
-const waterfall = require('async-waterfall');
-const bodyParser=require("body-parser")
+const async=require('async');
 const express = require('express');
 const app = express();
 app.use(express.json())
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));;
 const names=[
     {id:1, name:'sathish'},
     {id:2, name:'sai'},
     {id:3, name:'chandra'}, 
 ]
-app.get('/', (req,res)=> {
-    res.send('hello world')
-})
-app.get('/api/names',(req,res)=> {
+async.auto({
+    getbyany: function(callback){
+    app.get('/', (req,res)=> {
+        res.send('hello world')
+    })
+    callback(null)
+},
+     getbyname : function(callback){
+     app.get('/api/names',(req,res)=> {
     res.send(names)
 })
-app.post('/api/names',(req,res)=>{
+callback(null)
+},
+     post : function(callback){
+   app.post('/api/names',(req,res)=>{
     const {error}=validatename(req.body)
     if(error) return res.status(400).send(error.details[0].message)
     const name={
@@ -28,11 +35,17 @@ app.post('/api/names',(req,res)=>{
 names.push(name)
 res.send(name)
 })
+callback(null,"my")
+},
+getbyid : function(callback){
 app.get('/api/names/:id',(req,res)=>{
     const name=names.find(n => n.id=== parseInt(req.params.id))
     if(!name) return res.status(404).send('The Name With The Given ID Was Not Found.')
     res.send(name)
 })
+callback(null,"name")
+},
+put : function(callback){
 app.put('/api/names/:id',(req,res)=>{
     const Name=names.find(n => n.id === parseInt(req.params.id))
     if(!Name) return res.status(404).send('The Name With The Given ID Was Not Found.')
@@ -41,6 +54,9 @@ app.put('/api/names/:id',(req,res)=>{
     Name.name=req.params.name
     res.send(Name)
 })
+callback(null,"is")
+},
+delete : function(callback){
 app.delete('/api/names/:id',(req,res)=>{
     const name=names.find(n => n.id === parseInt(req.params.id))
     if(!name) return res.status(404).send('The Name With The Given ID Was Not Found.')
@@ -48,33 +64,23 @@ app.delete('/api/names/:id',(req,res)=>{
     names.splice(index,1)
     res.send(name)
 })
+callback(null,"sathish sai chandra")
+}
+}, function(err, results) {
+    if(err){
+        console.log("error occured");
+    }
+    if(!err){
+        app.get('/api/results',(req,res)=>{
+            res.send(results);
+        })
+    }}
+)
 function validatename(name){
     const schema={
         name: Joi.string().min(2).required()
     }
     return Joi.validate(name,schema)
 }
-const nam={"first":[{"id":1,"name":"sathish"}],
-           "middle":[{"id":2,"name":"sai"}],
-           "last":[{"id":3,"name":"chandra"}]};
-app.get('/api/all',(req,res)=>{
-    var result=[];
-    waterfall([
-        function task1(callback) {
-            callback(null,nam.first); 
-        },
-        function task2(a,callback) {
-            callback(null,nam.middle); 
-            result.push(a);
-        },
-        function task3(b,callback) {
-            result.push(b);
-            callback(null,nam.last);  
-        }
-    ],function (err,final){
-            result.push(final);
-            res.send(result);
-        })
-    })
-const port=process.env.PORT ||3000
-app.listen(port,()=> console.log(`listening on port${port}...`))
+const port=process.env.PORT ||4000
+app.listen(port,()=>console.log(`server started at ${port}`));
