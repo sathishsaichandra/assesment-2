@@ -3,6 +3,9 @@ const waterfall = require('async-waterfall');
 const express = require('express');
 const app = express();
 app.use(express.json())
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 const names=[
     {id:1, name:'sathish'},
     {id:2, name:'sai'},

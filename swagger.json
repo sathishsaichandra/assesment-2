@@ -1,95 +1,111 @@
 {
-    "swagger":"2.0",
-     "info": {
-         "version": "1.0.0",
-         "description":"id and names",
-         "title": "sample api"
-     },
-     "host": "localhost:3000",
-     "basePath": "/",
-     "schemes": [
-         "http"
-     ],
-     "paths": {
-         "/api/names": {
-             "get": {
-                 "description": "displays the names ",
-                 "parameters": [
-                     {
-                         "type": "string",
-                         "description": "names",
-                     }
-                 ],
-                
-             }
-         },
-         "/api/names": {
-             "post": {
-                 "description":"enter a name",
-                 "parameters": [
-                     {
-                         "type": "string",
-                         "description": "name",
-                         "name": "string",
-                         "in": "JSON"
-                     },
-                 ],
-     
-             }
-         },
-         "/api/names/:id": {
-             "get": {
-                 "description": "enter an number in the place of id",
-                 "parameters": [],
-                 "responses": {
-                     "404": {
-                         "type ": "array",
-                         "description": "The Name With The Given ID Was Not Found"
-                     }
-                 }
-             }
-         },
-         "/api/names/:id": {
-             "put": {
-                 "description": "updates the names",
-                 "parameters": [],
-                 "responses": {
-                     "404": {
-                         "type ": "array",
-                         "description": "The Name With The Given ID Was Not Found"
-                     }
-                 }
-                  "responses": {
-                     "400": {
-                         "type ": "array",
-                         "description": "bad request"
-                     }
-                 }
-             }
-         },
-         "/api/names/:id": {
-             "delete": {
-                 "description": "deletes an entry",
-                 "parameters": [],
-                 "responses": {
-                     "404": {
-                         "type ": "string",
-                         "description": "The Name With The Given ID Was Not Found"
-                     }
-                 }
-             }
-         },
-         "/api/all": {
-             "get": {
-                 "description": "displays all the names in the original data",
-                 "parameters": [
-                     {
-                         "type": "string",
-                         "description": "names"
-                     }
-                 ]
-                
-             }
-         }
-     }
- }
+    "swagger": "2.0",
+    "info": {
+    "version": "1.0.0",
+    "description": "Query operations",
+    "title": "CRUD operations"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "schemes": [
+    "http"
+    ],
+    "paths": {
+    "/api/names": {
+    "get": {
+    "description": "To show the names details",
+    "responses": {
+    "200": {
+    "description": "Successfully fetched the data"
+    }
+    }
+    },
+    "post": {
+    "description": "Api of insert",
+    "consumes": [
+    "application/json"
+    ],
+    "produces": [
+    "application/json"
+    ],
+    "parameters": [
+    {
+    "in": "body",
+    "name": "body",
+    "description": "inserting new names",
+    "required": true
+    }
+    ],
+    "responses": {
+    "200": {
+    "description": "successfully Inserted."
+    }
+    }
+    }
+    },
+    "/api/names/{id}": {
+    "get": {
+    "operationId": "getUserById",
+    "parameters": [
+    {
+    "name": "id",
+    "in": "path",
+    "type": "integer",
+    "format": "int64"
+    }
+    ],
+    "description": "get record of particular name",
+    "responses": {
+    "200": {
+    "description": "Successfully fetched the data"
+    }
+    }
+    },
+    "delete": {
+    "parameters": [
+    {
+    "name": "id",
+    "in": "path",
+    "type": "integer",
+    "format": "int64"
+    }
+    ],
+    "description": "To delete by the id",
+    "responses": {
+    "200": {
+    "description": "Successfully deleted the data"
+    }
+    }
+    },
+    "put": {
+    "parameters": [
+    {
+    "name": "id",
+    "in": "path",
+    "type": "integer",
+    "format": "int64"
+    },
+    {
+    "in": "body",
+    "name": "body",
+    "description": "update name",
+    "required": true
+    }
+    ],
+    "description": "Api of Update",
+    "summary": "Update an existing name ",
+    "consumes": [
+    "application/json"
+    ],
+    "produces": [
+    "application/json"
+    ],
+    "responses": {
+    "200": {
+    "description": "successfully Inserted."
+    }
+    }
+    }
+    }
+    }
+    }
